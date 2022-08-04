@@ -1,0 +1,100 @@
+@import '../../styles/variables.scss';
+
+header {
+  /*For no logged user*/
+  height: 10vh;
+  border-bottom: 0.1rem solid $orange-darken;
+  display: flex;
+  align-items: center;
+  .active-nav-link {
+    color: $orange-darken;
+    transition: color 0.4s ease;
+  }
+  .not-active-nav-link {
+    color: $blue-lighten;
+    transition: color 0.4s ease;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    height: 100%;
+    .logo-part {
+      margin-left: 0.8rem;
+      flex: 0.5;
+      a {
+        display: flex;
+        align-items: center;
+        width: 40%;
+        height: 100%;
+        img {
+          object-fit: cover;
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+    h3 {
+      flex: 1;
+      text-align: center;
+    }
+    .right-arrow-block {
+      margin-right: 0.8rem;
+      flex: 0.5;
+      display: flex;
+      justify-content: flex-end;
+      a {
+        color: $blue-lighten;
+      }
+    }
+  }
+  .main-navigation {
+    .user-img {
+      height: 90%;
+      a {
+        display: block;
+        border-radius: 50%;
+        max-width: 100%;
+        height: 100%;
+        img {
+          display: block;
+          border-radius: 50%;
+          object-fit: cover;
+          min-width: 100%;
+          height: 100%;
+        }
+      }
+      .active-nav-profile-link {
+        border: $orange-darken 1px solid;
+        box-shadow: 0px 0px 4px 0px $red;
+        transition: all 0.4s ease;
+      }
+      .not-active-nav-profile-link {
+        border: transparent 1px solid;
+        box-shadow: 0px 0px 0px 0px $red;
+        transition: all 0.4s ease;
+      }
+    }
+
+    .right-part {
+      border: 1px solid red;
+      .fa-icon {
+        color: $blue-lighten;
+        cursor: pointer;
+        transition: color 0.4s ease;
+        &:hover {
+          color: $orange-darken;
+        }
+      }
+      .logout-icon {
+        color: $red;
+        cursor: pointer;
+        transition: color 0.4s ease;
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
+}
