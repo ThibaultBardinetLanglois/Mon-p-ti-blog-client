@@ -9,7 +9,7 @@ import { getPostsByUser } from '../../../services/post'
 import { useSelector } from 'react-redux'
 
 // Component
-import Post from '../../../components/posts/post/Post';
+import Post from '../../../components/posts/post-profile/Post';
 
 
 const ProfilePublications = () => {
@@ -57,10 +57,14 @@ const ProfilePublications = () => {
   return (
     <div>
       profil publications here!!
-      {userPosts && 
-        userPosts.map((post, index) => {
-          return <Post key={index} props={{post, user: userInUrl}}/>
-        })
+      {console.log('user posts :', userPosts)}
+      {userPosts && userPosts?.length ? (
+          userPosts.map((post, index) => {
+            return <Post key={index} props={{post, user: userInUrl}}/>
+          })
+        ) : (
+          <p> {userPosts?.message} </p>
+        )
       }
     </div>
   )

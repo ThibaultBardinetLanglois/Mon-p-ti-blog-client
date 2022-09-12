@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 // api request
 import { getNoLoggedHomePosts } from '../../services/post'
 
+// Components
+import PostHome from '../../components/posts/post-home/PostHome'
+
 const Home = () => {
   const [posts, setPosts] = useState(null)
   
@@ -45,7 +48,15 @@ const Home = () => {
         </div>
       </div>
       <div className="no-logged-home-posts-container">
-
+        {posts ?
+          (
+            posts.map((post, index) => {
+              return <PostHome props={{ post }} key={index} />
+            })
+          ) : (
+            <p>Il n'y a encore aucun post publiés</p>
+          )
+        }
       </div>
     </div>
   )

@@ -4,8 +4,6 @@ const baseUrl = process.env.REACT_APP_API_URL
 
 
 export const getNoLoggedHomePosts = async () => {
-  console.log("Get home posts with axios =>", )
-
   try {
     const posts = await axios({
       method:'get',

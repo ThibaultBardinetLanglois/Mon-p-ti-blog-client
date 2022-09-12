@@ -1,7 +1,7 @@
 import './post.scss'
 
 // Components
-import Comment from './comment/Comment'
+import Comment from '../comment/Comment'
 
 // Fontawsome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -19,8 +19,8 @@ const Post = (props) => {
     loggedUserId = userData.infos.id,
     canEditPost = loggedUserId === post.user_id;
 
-  console.log("post props : ", props)
-  console.log("post : ", post);
+  // console.log("post props : ", props)
+  // console.log("post : ", post);
   return (
     <div className='post-container'>
       <p>POST</p>
@@ -28,6 +28,7 @@ const Post = (props) => {
         <button>Edit The Post</button>
       }
       <p> { senderUser.name } </p>
+      <p> { post.tag.toUpperCase() } </p>
       <p> {post.created_at} </p>
       <p> {post.title} </p>
       <p> {post.description} </p>
@@ -72,7 +73,7 @@ const Post = (props) => {
       <p>Comments</p>
       {post.comments.length > 0 &&
         post.comments.map((comment, index) => {
-          return <Comment key={index} props={comment} />
+          return <Comment key={index} props={{ comment }} />
         })
       }
     </div>

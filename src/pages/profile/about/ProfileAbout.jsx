@@ -13,15 +13,17 @@ import { getUser } from '../../../redux/actions/userActions'
 import defaultUserImg from '../../../images/default-user.png'
 
 const ProfileAbout = (props) => {
-  const [userInUrl] = useOutletContext()
-  const dispatch = useDispatch()
-  const userData = useSelector((state) => state.userReducer.user)
-  const userId = userData.infos?.id
-  const [csrfToken, setCsrfToken] = useState('')
-  let nameInUrlparams = useParams().name
-  console.log("user in url =>", userInUrl)
+  const [user, setUser] = useState(),
+  dispatch = useDispatch(),
+  userData = useSelector((state) => state.userReducer.user),
+  token = window.localStorage.getItem("P'ti blog"),
+  userId = userData.infos?.id,
+  [csrfToken, setCsrfToken] = useState(''),
+  urlName = useParams().name,
+  userName = userData.infos?.name === urlName ? userData.infos?.name : urlName,
+  [allowedToEdit] = useState(urlName === userData.infos?.name);
+  console.log("user in url =>", user)
   
-  const [allowedToEdit] = useState(nameInUrlparams === userData.infos?.name)
   console.log("Allowed to edit ==>", allowedToEdit);
   // Retrieve csrf token in the useEffect if allowedToEdit is set to true
   const getCsrfTokenFromServer = async () => {
@@ -31,15 +33,32 @@ const ProfileAbout = (props) => {
       })
   }
 
+  const getUser = async () => {
+    try {
+      const response = await getUserByName(userName, token)
+      setUser(response.data)
+      setName(response.data?.name)
+      setEmail(response.data?.email)
+      setDescription(response.data?.description)
+      setPassions(response.data?.passions)
+      setCreatedAt(response.data.created_at)
+      setImage(response.data.image)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   // We have to display either the user infos from the redux store if the user is connected and is on his profile page either the user infos from the user in url in case we just look a friend profile and don't have the permissions to edit it
   const [editForm, setEditForm] = useState(false)
-  const [name, setName] = useState(allowedToEdit ? userData.infos.name : userInUrl?.name)
-  const [email, setEmail] = useState(allowedToEdit ? userData.infos.email : userInUrl?.email)
   const [file, setFile] = useState(null)
-  const [description, setDescription] = useState(allowedToEdit ? userData.infos?.description : userInUrl?.description)
-  const [passions, setPassions] = useState(allowedToEdit ? userData.infos?.passions : userInUrl?.passions)
-  const [createdAt] = useState(allowedToEdit ? userData.infos.created_at : userInUrl?.created_at)
-  const [image, setImage] = useState(allowedToEdit ? userData.infos.image : userInUrl?.image)
+  const [name, setName] = useState(userData.infos?.name)
+  const [email, setEmail] = useState(userData.infos?.email)
+  const [description, setDescription] = useState(userData.infos?.description)
+  const [passions, setPassions] = useState(userData.infos?.passions)
+  const [createdAt, setCreatedAt] = useState(userData.infos.created_at)
+  const [image, setImage] = useState(userData.infos.image)
+
+  console.log(`name : ${name}`, user?.name)
   
   const handleEdit = async (e) => {
     e.preventDefault()
@@ -93,12 +112,15 @@ const ProfileAbout = (props) => {
   }
 
   useEffect(() => {
+    if (!allowedToEdit) {
+      getUser()
+    }
     textAreaNotNull()
 
     if (allowedToEdit) {
       getCsrfTokenFromServer()
     }
-  }, [])
+  }, [urlName])
 
   return (
     <div className='profile-page'>
